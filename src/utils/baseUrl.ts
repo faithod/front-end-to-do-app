@@ -3,8 +3,8 @@
 
 export const baseUrl =
   process.env.NODE_ENV === "production"
-    ? "https://to-do-app-faithod.herokuapp.com/"
-    : "localhost:4000";
+    ? "https://to-do-app-faithod.herokuapp.com"
+    : "http://localhost:4000";
 
 //process.env.NODE_ENV is automatically set to "production" or "development" on the right environment
 //
