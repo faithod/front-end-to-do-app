@@ -1,4 +1,4 @@
-export default function addSuffix(day: string) {
+export function addSuffix(day: string): string {
   if (day.startsWith("0")) {
     //removing the zero e.g. 04 -> 4
     day = day[1];
