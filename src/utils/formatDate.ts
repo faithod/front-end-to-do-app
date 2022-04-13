@@ -4,7 +4,7 @@ export function formatDate(date: string): string {
   const months = [
     "Jan",
     "Feb",
-    "March",
+    "Mar",
     "Apr",
     "May",
     "June",
