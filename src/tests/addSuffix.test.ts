@@ -1,4 +1,4 @@
-import addSuffix from "./addSuffix";
+import { addSuffix } from "../utils/addSuffix";
 
 test("addSuffix returns a string plus its suffix, formatting the day of a date", () => {
   expect(addSuffix("1")).toBeDefined();
