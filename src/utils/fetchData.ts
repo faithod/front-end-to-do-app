@@ -2,10 +2,12 @@ import { IToDo } from "../App";
 import { baseUrl } from "./baseUrl";
 
 export default function fetchData(
-  endpoint: string,
   setState: React.Dispatch<React.SetStateAction<IToDo[]>>
 ): void {
-  fetch(baseUrl + endpoint)
+  fetch(baseUrl + "/todolist")
     .then((res) => res.json())
-    .then((data) => setState(data.data));
+    .then((data) => {
+      setState(data.data);
+      console.log(data.data);
+    });
 }

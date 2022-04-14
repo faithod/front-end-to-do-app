@@ -4,8 +4,9 @@ import { baseUrl } from "../utils/baseUrl";
 import fetchData from "../utils/fetchData";
 import { formatDate } from "../utils/formatDate";
 import axios from "axios";
+import { changeDate } from "../utils/changeDate";
 
-interface INewToDo {
+export interface INewToDo {
   content: string;
   due: undefined | string;
 }
@@ -34,7 +35,7 @@ export default function ToDoList({
     if (newToDo.content.length === 0) {
       setContentFieldIsEmpty(true);
     } else {
-      axios.post(baseUrl + "/todolist", newToDo).then(() => {
+      axios.post(baseUrl + "/todolist", changeDate(newToDo)).then(() => {
         fetchData(setToDolist);
         setNewToDo({
           content: "",
@@ -52,7 +53,7 @@ export default function ToDoList({
 
   const handleUpdateToDo = (id: number) => {
     console.log(updatedToDo);
-    axios.put(baseUrl + `/todolist/${id}`, updatedToDo).then(() => {
+    axios.put(baseUrl + `/todolist/${id}`, changeDate(updatedToDo)).then(() => {
       fetchData(setToDolist);
     });
   };
