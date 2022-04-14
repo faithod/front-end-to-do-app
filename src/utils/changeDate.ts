@@ -4,7 +4,7 @@
 
 import { INewToDo } from "../components/ToDoList";
 
-export function changeDate(toDo: INewToDo) {
+export function changeDate(toDo: INewToDo): INewToDo {
   if (toDo.due) {
     //to add a day to date
     const date = new Date(toDo.due); //value is in format YYYY-MM-DD
@@ -16,5 +16,4 @@ export function changeDate(toDo: INewToDo) {
   }
 
   return toDo;
-  console.log(toDo);
 }

@@ -34,6 +34,7 @@ export default function ToDoList({
     if (newToDo.content.length === 0) {
       setContentFieldIsEmpty(true);
     } else {
+      setContentFieldIsEmpty(false);
       axios.post(baseUrl + "/todolist", changeDate(newToDo)).then(() => {
         fetchData(setToDolist);
         setNewToDo({
@@ -52,11 +53,26 @@ export default function ToDoList({
 
   const handleUpdateToDo = (id: number) => {
     console.log(updatedToDo);
-    axios.put(baseUrl + `/todolist/${id}`, changeDate(updatedToDo)).then(() => {
-      fetchData(setToDolist);
-    });
+    if (updatedToDo.content.length === 0) {
+      setContentFieldIsEmpty(true);
+    } else {
+      setContentFieldIsEmpty(false);
+      setEditingId(undefined);
+      axios
+        .patch(baseUrl + `/todolist/${id}`, changeDate(updatedToDo))
+        .then(() => {
+          fetchData(setToDolist);
+        });
+    }
   };
-  //order by id to keep the order the same??
+
+  const handleChangeComplete = (id: number, completeValue: boolean) => {
+    axios
+      .patch(baseUrl + `/todolist/${id}`, { complete: !completeValue })
+      .then(() => {
+        fetchData(setToDolist);
+      });
+  };
   return (
     <main>
       <table>
@@ -95,12 +111,7 @@ export default function ToDoList({
                       console.log(e.target.value);
                     }}
                   ></input>
-                  <button
-                    onClick={() => {
-                      handleUpdateToDo(item.id);
-                      setEditingId(undefined);
-                    }}
-                  >
+                  <button onClick={() => handleUpdateToDo(item.id)}>
                     Update
                   </button>
                 </td>
@@ -108,7 +119,13 @@ export default function ToDoList({
                 <>
                   <td>{item.content}</td>
                   <td>
-                    <input type="checkbox" name="completed" />
+                    <input
+                      type="checkbox"
+                      name="completed"
+                      onChange={() =>
+                        handleChangeComplete(item.id, item.complete)
+                      }
+                    />
                   </td>
                   <td>{item.due && formatDate(item.due)}</td>
                   <td>
@@ -117,7 +134,7 @@ export default function ToDoList({
                         setEditingId(item.id);
                         setUpdatedToDo({
                           content: item.content,
-                          due: item.due.slice(0, 10),
+                          due: item.due ? item.due.slice(0, 10) : "",
                         });
                         console.log(item.due);
                       }}
