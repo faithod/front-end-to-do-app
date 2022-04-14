@@ -9,9 +9,11 @@ export function changeDate(toDo: INewToDo) {
     //to add a day to date
     const date = new Date(toDo.due); //value is in format YYYY-MM-DD
     date.setDate(date.getDate() + 1);
-    const outputDate = date.toISOString();
+    const outputDate = date.toISOString().slice(0, 10);
 
     //replace due property
     return { ...toDo, due: outputDate };
   }
+
+  return toDo;
 }
