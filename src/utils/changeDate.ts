@@ -16,4 +16,5 @@ export function changeDate(toDo: INewToDo) {
   }
 
   return toDo;
+  console.log(toDo);
 }

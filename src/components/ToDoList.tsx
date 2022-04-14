@@ -30,7 +30,6 @@ export default function ToDoList({
     due: undefined,
   });
 
-  console.log(newToDo);
   const handleAddNewToDo = () => {
     if (newToDo.content.length === 0) {
       setContentFieldIsEmpty(true);
@@ -146,7 +145,11 @@ export default function ToDoList({
         }
       ></input>
       <input
-        value={newToDo.due}
+        value={
+          newToDo.due === undefined
+            ? ""
+            : newToDo.due /*as only ("") resets the date AND because we can't send ("") to the server */
+        }
         type="date"
         onChange={(e) => {
           setNewToDo((prev) => ({ ...prev, due: e.target.value }));
