@@ -73,8 +73,31 @@ export default function ToDoList({
         fetchData(setToDolist);
       });
   };
+
+  function sortToDoList(value: string) {
+    //toDoList is already sorted by creation date
+    if (value === "due-date") {
+      const sortedArray = toDoList
+        .filter((el) => el.due !== null)
+        .sort((a, b) => Date.parse(a.due) - Date.parse(b.due));
+      const elementsWithNullDates = toDoList.filter((el) => el.due === null);
+      setToDolist(sortedArray.concat(elementsWithNullDates)); //putting the elements with null dates at the end
+    } else if (value === "creation-date") {
+      fetchData(setToDolist);
+    }
+  }
   return (
     <main>
+      <label htmlFor="sort-by">Sort By:</label>
+
+      <select
+        name="sort-by"
+        id="sort-by"
+        onChange={(e) => sortToDoList(e.target.value)}
+      >
+        <option value="creation-date">creation date</option>
+        <option value="due-date">due date</option>
+      </select>
       <table>
         <thead>
           <tr>

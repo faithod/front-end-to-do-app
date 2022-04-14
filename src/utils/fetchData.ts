@@ -8,6 +8,5 @@ export default function fetchData(
     .then((res) => res.json())
     .then((data) => {
       setState(data.data);
-      console.log(data.data);
     });
 }
