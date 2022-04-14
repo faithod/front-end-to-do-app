@@ -14,13 +14,13 @@ export interface IToDo {
 function App(): JSX.Element {
   const [toDoList, setToDolist] = useState<IToDo[]>([]);
   useEffect(() => {
-    fetchData("/todolist", setToDolist);
+    fetchData(setToDolist);
   }, []);
 
   return (
     <>
       <Header />
-      <ToDoList toDoList={toDoList} />
+      <ToDoList toDoList={toDoList} setToDolist={setToDolist} />
     </>
   );
 }
