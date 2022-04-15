@@ -6,6 +6,7 @@ import { formatDate } from "../utils/formatDate";
 import axios from "axios";
 import { changeDate } from "../utils/changeDate";
 import { sortedToDoList } from "../utils/sortedToDoList";
+import Container from "@mui/material/Container";
 
 export interface INewToDo {
   content: string;
@@ -91,7 +92,12 @@ export default function ToDoList({
   const filteredToDoList = filterToDoList(toDoList, filterValue);
 
   return (
-    <main>
+    <Container
+      maxWidth="sm"
+      component="main"
+      sx={{ pt: 7, pb: 6, backgroundColor: "secondary.dark" }}
+      disableGutters
+    >
       <select
         name="sort-by"
         onChange={(e) => sortedToDoList(e.target.value, toDoList, setToDoList)}
@@ -212,6 +218,6 @@ export default function ToDoList({
       ></input>
       <button onClick={handleAddNewToDo}>Add New</button>
       {contentFieldIsEmpty && <p>field is empty</p>}
-    </main>
+    </Container>
   );
 }
