@@ -5,6 +5,7 @@ import fetchData from "../utils/fetchData";
 import { formatDate } from "../utils/formatDate";
 import axios from "axios";
 import { changeDate } from "../utils/changeDate";
+import { sortToDoList } from "../utils/sortToDoList";
 
 export interface INewToDo {
   content: string;
@@ -29,6 +30,7 @@ export default function ToDoList({
     content: "",
     due: undefined,
   });
+  const [filterValue, setFilterValue] = useState("");
 
   const handleAddNewToDo = () => {
     if (newToDo.content.length === 0) {
@@ -74,29 +76,41 @@ export default function ToDoList({
       });
   };
 
-  function sortToDoList(value: string) {
-    //toDoList is already sorted by creation date
-    if (value === "due-date") {
-      const sortedArray = toDoList
-        .filter((el) => el.due !== null)
-        .sort((a, b) => Date.parse(a.due) - Date.parse(b.due));
-      const elementsWithNullDates = toDoList.filter((el) => el.due === null);
-      setToDolist(sortedArray.concat(elementsWithNullDates)); //putting the elements with null dates at the end
-    } else if (value === "creation-date") {
-      fetchData(setToDolist);
+  function filterToDoList(toDoList: IToDo[], value: string) {
+    if (value === "complete") {
+      return toDoList.filter((el) => el.complete === true);
+    } else if (value === "uncomplete") {
+      return toDoList.filter((el) => el.complete !== true);
+    } /*ADD LATER: else if (value==="overdue") {
+          filteredToDo = toDoList.filter(el=>el.due);
+        }*/ else {
+      return toDoList;
     }
   }
+
+  const filteredToDoList = filterToDoList(toDoList, filterValue);
+
   return (
     <main>
-      <label htmlFor="sort-by">Sort By:</label>
-
       <select
         name="sort-by"
-        id="sort-by"
-        onChange={(e) => sortToDoList(e.target.value)}
+        onChange={(e) => sortToDoList(e.target.value, toDoList, setToDolist)}
       >
+        <option value="" disabled selected>
+          Sort By
+        </option>
         <option value="creation-date">creation date</option>
         <option value="due-date">due date</option>
+      </select>
+
+      <select name="filter-by" onChange={(e) => setFilterValue(e.target.value)}>
+        <option value="" disabled selected>
+          Filter By
+        </option>
+        <option value="complete">completed</option>
+        <option value="uncomplete">uncomplete</option>
+        {/* <option value="overdue">overdue</option> */}
+        <option value="reset">reset filters</option>
       </select>
       <table>
         <thead>
@@ -109,7 +123,7 @@ export default function ToDoList({
           </tr>
         </thead>
         <tbody>
-          {toDoList.map((item, i) => (
+          {filteredToDoList.map((item, i) => (
             <tr key={i}>
               {editingId === item.id ? (
                 <td>
