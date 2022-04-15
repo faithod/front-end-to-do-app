@@ -7,6 +7,13 @@ import axios from "axios";
 import { changeDate } from "../utils/changeDate";
 import { sortedToDoList } from "../utils/sortedToDoList";
 import Container from "@mui/material/Container";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
 export interface INewToDo {
   content: string;
@@ -118,84 +125,86 @@ export default function ToDoList({
         {/* <option value="overdue">overdue</option> */}
         <option value="reset">reset filters</option>
       </select>
-      <table>
-        <thead>
-          <tr>
-            <th>Content</th>
-            <th>complete</th>
-            <th>due</th>
-            <th>delete</th>
-            <th>edit</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredToDoList.map((item, i) => (
-            <tr key={i}>
-              {editingId === item.id ? (
-                <td>
-                  <input
-                    value={updatedToDo.content}
-                    type="text"
-                    onChange={(e) =>
-                      setUpdatedToDo((prev) => ({
-                        ...prev,
-                        content: e.target.value,
-                      }))
-                    }
-                  ></input>
-                  <input
-                    value={updatedToDo.due}
-                    type="date"
-                    onChange={(e) => {
-                      setUpdatedToDo((prev) => ({
-                        ...prev,
-                        due: e.target.value,
-                      }));
-                      console.log(e.target.value);
-                    }}
-                  ></input>
-                  <button onClick={() => handleUpdateToDo(item.id)}>
-                    Update
-                  </button>
-                </td>
-              ) : (
-                <>
-                  <td>{item.content}</td>
-                  <td>
-                    <input
-                      type="checkbox"
-                      name="completed"
-                      onChange={() =>
-                        handleChangeComplete(item.id, item.complete)
-                      }
-                    />
-                  </td>
-                  <td>{item.due && formatDate(item.due)}</td>
-                  <td>
-                    <button
-                      onClick={() => {
-                        setEditingId(item.id);
-                        setUpdatedToDo({
-                          content: item.content,
-                          due: item.due ? item.due.slice(0, 10) : "",
-                        });
-                        console.log(item.due);
-                      }}
-                    >
-                      edit
-                    </button>
-                  </td>
-                  <td>
-                    <button onClick={() => handleDeleteToDo(item.id)}>
-                      delete
-                    </button>
-                  </td>
-                </>
-              )}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <TableContainer component={Paper}>
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Content</TableCell>
+              <TableCell align="right">due</TableCell>
+              <TableCell align="right">complete, edit, delete</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {filteredToDoList.map((item, i) => {
+              const checked = item.complete;
+              return (
+                <TableRow key={i}>
+                  {editingId === item.id ? (
+                    <TableCell>
+                      <input
+                        value={updatedToDo.content}
+                        type="text"
+                        onChange={(e) =>
+                          setUpdatedToDo((prev) => ({
+                            ...prev,
+                            content: e.target.value,
+                          }))
+                        }
+                      ></input>
+                      <input
+                        value={updatedToDo.due}
+                        type="date"
+                        onChange={(e) => {
+                          setUpdatedToDo((prev) => ({
+                            ...prev,
+                            due: e.target.value,
+                          }));
+                          console.log(e.target.value);
+                        }}
+                      ></input>
+                      <button onClick={() => handleUpdateToDo(item.id)}>
+                        Update
+                      </button>
+                    </TableCell>
+                  ) : (
+                    <>
+                      <TableCell>{item.content}</TableCell>
+                      <TableCell align="right">
+                        {item.due && formatDate(item.due)}
+                      </TableCell>
+                      <TableCell align="right">
+                        <input
+                          type="checkbox"
+                          name="completed"
+                          checked={checked ? true : undefined}
+                          onChange={() =>
+                            handleChangeComplete(item.id, item.complete)
+                          }
+                        />
+                        <button
+                          onClick={() => {
+                            setEditingId(item.id);
+                            setUpdatedToDo({
+                              content: item.content,
+                              due: item.due ? item.due.slice(0, 10) : "",
+                            });
+                            console.log(item.due);
+                          }}
+                        >
+                          edit
+                        </button>
+                        <button onClick={() => handleDeleteToDo(item.id)}>
+                          delete
+                        </button>
+                      </TableCell>
+                    </>
+                  )}
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
       <input
         value={newToDo.content}
