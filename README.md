@@ -27,7 +27,7 @@ Or, for dev mode (restarts server automatically when relevant files change): ```
 
 Install PostgreSQL and run it
 
-You will need to create your own databases for this project - one locally and one on Heroku. ****
+You will need to create your own databases for this project - one locally and one on Heroku.
 
 Copy .env.example to .env and set `DATABASE_URL` and `PORT` to your liking.
 
