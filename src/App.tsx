@@ -12,15 +12,15 @@ export interface IToDo {
 }
 
 function App(): JSX.Element {
-  const [toDoList, setToDolist] = useState<IToDo[]>([]);
+  const [toDoList, setToDoList] = useState<IToDo[]>([]);
   useEffect(() => {
-    fetchData(setToDolist);
+    fetchData(setToDoList);
   }, []);
 
   return (
     <>
       <Header />
-      <ToDoList toDoList={toDoList} setToDolist={setToDolist} />
+      <ToDoList toDoList={toDoList} setToDoList={setToDoList} />
     </>
   );
 }

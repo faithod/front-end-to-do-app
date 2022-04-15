@@ -5,7 +5,7 @@ import fetchData from "../utils/fetchData";
 import { formatDate } from "../utils/formatDate";
 import axios from "axios";
 import { changeDate } from "../utils/changeDate";
-import { sortToDoList } from "../utils/sortToDoList";
+import { sortedToDoList } from "../utils/sortedToDoList";
 
 export interface INewToDo {
   content: string;
@@ -14,10 +14,10 @@ export interface INewToDo {
 
 export default function ToDoList({
   toDoList,
-  setToDolist,
+  setToDoList,
 }: {
   toDoList: IToDo[];
-  setToDolist: React.Dispatch<React.SetStateAction<IToDo[]>>;
+  setToDoList: React.Dispatch<React.SetStateAction<IToDo[]>>;
 }): JSX.Element {
   console.log(toDoList);
   const [newToDo, setNewToDo] = useState<INewToDo>({
@@ -38,7 +38,7 @@ export default function ToDoList({
     } else {
       setContentFieldIsEmpty(false);
       axios.post(baseUrl + "/todolist", changeDate(newToDo)).then(() => {
-        fetchData(setToDolist);
+        fetchData(setToDoList);
         setNewToDo({
           content: "",
           due: undefined,
@@ -49,7 +49,7 @@ export default function ToDoList({
 
   const handleDeleteToDo = (id: number) => {
     axios.delete(baseUrl + `/todolist/${id}`).then(() => {
-      fetchData(setToDolist);
+      fetchData(setToDoList);
     });
   };
 
@@ -63,7 +63,7 @@ export default function ToDoList({
       axios
         .patch(baseUrl + `/todolist/${id}`, changeDate(updatedToDo))
         .then(() => {
-          fetchData(setToDolist);
+          fetchData(setToDoList);
         });
     }
   };
@@ -72,7 +72,7 @@ export default function ToDoList({
     axios
       .patch(baseUrl + `/todolist/${id}`, { complete: !completeValue })
       .then(() => {
-        fetchData(setToDolist);
+        fetchData(setToDoList);
       });
   };
 
@@ -94,13 +94,13 @@ export default function ToDoList({
     <main>
       <select
         name="sort-by"
-        onChange={(e) => sortToDoList(e.target.value, toDoList, setToDolist)}
+        onChange={(e) => sortedToDoList(e.target.value, toDoList, setToDoList)}
       >
         <option value="" disabled selected>
           Sort By
         </option>
-        <option value="creation-date">creation date</option>
         <option value="due-date">due date</option>
+        <option value="reset">reset</option>
       </select>
 
       <select name="filter-by" onChange={(e) => setFilterValue(e.target.value)}>
