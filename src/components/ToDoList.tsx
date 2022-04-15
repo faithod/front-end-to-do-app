@@ -15,6 +15,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import AddNewToDo from "./AddNewToDo";
+import DeleteButton from "./DeleteButton";
 
 export interface INewToDo {
   content: string;
@@ -37,12 +38,6 @@ export default function ToDoList({
     due: undefined,
   });
   const [filterValue, setFilterValue] = useState("");
-
-  const handleDeleteToDo = (id: number) => {
-    axios.delete(baseUrl + `/todolist/${id}`).then(() => {
-      fetchData(setToDoList);
-    });
-  };
 
   const handleUpdateToDo = (id: number) => {
     console.log(updatedToDo);
@@ -182,9 +177,7 @@ export default function ToDoList({
                         >
                           edit
                         </button>
-                        <button onClick={() => handleDeleteToDo(item.id)}>
-                          delete
-                        </button>
+                        <DeleteButton id={item.id} setToDoList={setToDoList} />
                       </TableCell>
                     </>
                   )}
