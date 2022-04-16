@@ -16,6 +16,20 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import AddNewToDo from "./AddNewToDo";
 import DeleteButton from "./DeleteButton";
+import EditButton from "./EditButton";
+import Checkbox from "@mui/material/Checkbox";
+import IconButton from "@mui/material/IconButton";
+import DoneIcon from "@mui/icons-material/Done";
+import { Input } from "@mui/material";
+import TextField from "@mui/material/TextField";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
+
+const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 export interface INewToDo {
   content: string;
@@ -120,7 +134,7 @@ export default function ToDoList({
                   {editingId === item.id ? (
                     <>
                       <TableCell>
-                        <input
+                        <Input
                           value={updatedToDo.content}
                           type="text"
                           onChange={(e) =>
@@ -129,25 +143,31 @@ export default function ToDoList({
                               content: e.target.value,
                             }))
                           }
-                        ></input>
+                        ></Input>
                       </TableCell>
                       <TableCell>
-                        <input
-                          value={updatedToDo.due}
-                          type="date"
-                          onChange={(e) => {
-                            setUpdatedToDo((prev) => ({
-                              ...prev,
-                              due: e.target.value,
-                            }));
-                            console.log(e.target.value);
-                          }}
-                        ></input>
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                          <DesktopDatePicker
+                            inputFormat="dd/MM/yyyy"
+                            value={updatedToDo.due}
+                            onChange={(value: Date | null) => {
+                              if (value) {
+                                setUpdatedToDo((prev) => ({
+                                  ...prev,
+                                  due: value
+                                    .toISOString() //this mui inout doesnt have an event, but a value that is a date object
+                                    .slice(0, 10), //going from Sat Apr 23 2022 01:00:00 GMT+0100 (British Summer Time) to '2022-04-23'
+                                }));
+                              }
+                            }}
+                            renderInput={(params) => <TextField {...params} />}
+                          />
+                        </LocalizationProvider>
                       </TableCell>
                       <TableCell>
-                        <button onClick={() => handleUpdateToDo(item.id)}>
-                          Update
-                        </button>
+                        <IconButton onClick={() => handleUpdateToDo(item.id)}>
+                          <DoneIcon />
+                        </IconButton>
                       </TableCell>
                     </>
                   ) : (
@@ -157,26 +177,21 @@ export default function ToDoList({
                         {item.due && formatDate(item.due)}
                       </TableCell>
                       <TableCell align="right">
-                        <input
-                          type="checkbox"
+                        <Checkbox
+                          {...label}
                           name="completed"
-                          checked={checked ? true : undefined}
+                          checked={checked ? true : false}
                           onChange={() =>
                             handleChangeComplete(item.id, item.complete)
                           }
                         />
-                        <button
-                          onClick={() => {
-                            setEditingId(item.id);
-                            setUpdatedToDo({
-                              content: item.content,
-                              due: item.due ? item.due.slice(0, 10) : "",
-                            });
-                            console.log(item.due);
-                          }}
-                        >
-                          edit
-                        </button>
+                        <EditButton
+                          content={item.content}
+                          due={item.due}
+                          id={item.id}
+                          setEditingId={setEditingId}
+                          setUpdatedToDo={setUpdatedToDo}
+                        />
                         <DeleteButton id={item.id} setToDoList={setToDoList} />
                       </TableCell>
                     </>
