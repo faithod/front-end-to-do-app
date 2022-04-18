@@ -21,13 +21,9 @@ import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import DoneIcon from "@mui/icons-material/Done";
 import { Input } from "@mui/material";
-import TextField from "@mui/material/TextField";
+import DatePicker from "./DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -145,24 +141,11 @@ export default function ToDoList({
                           }
                         ></Input>
                       </TableCell>
-                      <TableCell align="right" sx={{ width: 200 }}>
+                      <TableCell align="right">
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
-                          <DesktopDatePicker
-                            inputFormat="dd/MM/yyyy"
-                            value={updatedToDo.due}
-                            onChange={(value: Date | null) => {
-                              if (value) {
-                                setUpdatedToDo((prev) => ({
-                                  ...prev,
-                                  due: value
-                                    .toISOString() //this mui input doesnt have an event, but a value that is a date object
-                                    .slice(0, 10), //going from Sat Apr 23 2022 01:00:00 GMT+0100 (British Summer Time) to '2022-04-23'
-                                }));
-                              }
-                            }}
-                            renderInput={(params) => (
-                              <TextField size="small" {...params} />
-                            )}
+                          <DatePicker
+                            date={updatedToDo.due}
+                            setState={setUpdatedToDo}
                           />
                         </LocalizationProvider>
                       </TableCell>

@@ -8,6 +8,9 @@ import axios from "axios";
 import Container from "@mui/material/Container";
 import { alpha, styled } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
+import DatePicker from "./DatePicker";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
   "label + &": {
@@ -55,7 +58,7 @@ export default function AddNewToDo({
 }) {
   const [newToDo, setNewToDo] = useState<INewToDo>({
     content: "",
-    due: undefined,
+    due: undefined /*cant send ("") to the server */,
   });
 
   const handleAddNewToDo = () => {
@@ -90,18 +93,9 @@ export default function AddNewToDo({
           setNewToDo((prev) => ({ ...prev, content: e.target.value }))
         }
       />
-      <input
-        value={
-          newToDo.due === undefined
-            ? ""
-            : newToDo.due /*as only ("") resets the date AND because we can't send ("") to the server */
-        }
-        type="date"
-        onChange={(e) => {
-          setNewToDo((prev) => ({ ...prev, due: e.target.value }));
-          console.log(e.target.value);
-        }}
-      ></input>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <DatePicker date={newToDo.due} setState={setNewToDo} />
+      </LocalizationProvider>
       <button onClick={handleAddNewToDo}>Add New</button>
     </Container>
   );
