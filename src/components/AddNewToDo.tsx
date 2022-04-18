@@ -11,6 +11,9 @@ import InputBase from "@mui/material/InputBase";
 import DatePicker from "./DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import Fab from "@mui/material/Fab";
+import AddIcon from "@mui/icons-material/Add";
+import TextField from "@mui/material/TextField";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
   "label + &": {
@@ -83,12 +86,17 @@ export default function AddNewToDo({
       sx={{
         p: 7,
         backgroundColor: "yellow",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-around",
       }}
       disableGutters
     >
-      <BootstrapInput
+      <TextField
+        id="outlined-basic"
+        variant="outlined"
+        size="small"
         value={newToDo.content}
-        type="text"
         onChange={(e) =>
           setNewToDo((prev) => ({ ...prev, content: e.target.value }))
         }
@@ -96,7 +104,9 @@ export default function AddNewToDo({
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DatePicker date={newToDo.due} setState={setNewToDo} />
       </LocalizationProvider>
-      <button onClick={handleAddNewToDo}>Add New</button>
+      <Fab color="primary" aria-label="add" onClick={handleAddNewToDo}>
+        <AddIcon />
+      </Fab>
     </Container>
   );
 }
