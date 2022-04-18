@@ -5,7 +5,7 @@ import fetchData from "../utils/fetchData";
 import { formatDate } from "../utils/formatDate";
 import axios from "axios";
 import { changeDate } from "../utils/changeDate";
-import { sortedToDoList } from "../utils/sortedToDoList";
+import { sortToDoList } from "../utils/sortToDoList";
 import Container from "@mui/material/Container";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -24,6 +24,7 @@ import { Input } from "@mui/material";
 import DatePicker from "./DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import Select from "./Select";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -93,26 +94,12 @@ export default function ToDoList({
       sx={{ pt: 7, pb: 6, backgroundColor: "secondary.dark" }}
       disableGutters
     >
-      <select
-        name="sort-by"
-        onChange={(e) => sortedToDoList(e.target.value, toDoList, setToDoList)}
-      >
-        <option value="" disabled selected>
-          Sort By
-        </option>
-        <option value="due-date">due date</option>
-        <option value="reset">reset</option>
-      </select>
-
-      <select name="filter-by" onChange={(e) => setFilterValue(e.target.value)}>
-        <option value="" disabled selected>
-          Filter By
-        </option>
-        <option value="complete">completed</option>
-        <option value="uncomplete">uncomplete</option>
-        {/* <option value="overdue">overdue</option> */}
-        <option value="reset">reset filters</option>
-      </select>
+      <Select
+        selectType={"Sort"}
+        toDoList={toDoList}
+        setToDoList={setToDoList}
+      />
+      <Select selectType={"Filter"} setFilterValue={setFilterValue} />
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
           <TableHead>

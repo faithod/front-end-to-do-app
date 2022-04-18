@@ -1,7 +1,7 @@
 import fetchData from "./fetchData";
 import { IToDo } from "../App";
 
-export function sortedToDoList(
+export function sortToDoList(
   value: string,
   toDoList: IToDo[],
   setToDoList: React.Dispatch<React.SetStateAction<IToDo[]>>
