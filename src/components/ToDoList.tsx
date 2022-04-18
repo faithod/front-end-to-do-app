@@ -145,7 +145,7 @@ export default function ToDoList({
                           }
                         ></Input>
                       </TableCell>
-                      <TableCell>
+                      <TableCell align="right" sx={{ width: 200 }}>
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                           <DesktopDatePicker
                             inputFormat="dd/MM/yyyy"
@@ -155,16 +155,18 @@ export default function ToDoList({
                                 setUpdatedToDo((prev) => ({
                                   ...prev,
                                   due: value
-                                    .toISOString() //this mui inout doesnt have an event, but a value that is a date object
+                                    .toISOString() //this mui input doesnt have an event, but a value that is a date object
                                     .slice(0, 10), //going from Sat Apr 23 2022 01:00:00 GMT+0100 (British Summer Time) to '2022-04-23'
                                 }));
                               }
                             }}
-                            renderInput={(params) => <TextField {...params} />}
+                            renderInput={(params) => (
+                              <TextField size="small" {...params} />
+                            )}
                           />
                         </LocalizationProvider>
                       </TableCell>
-                      <TableCell>
+                      <TableCell align="right">
                         <IconButton onClick={() => handleUpdateToDo(item.id)}>
                           <DoneIcon />
                         </IconButton>
