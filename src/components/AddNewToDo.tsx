@@ -14,53 +14,15 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-
-const BootstrapInput = styled(InputBase)(({ theme }) => ({
-  "label + &": {
-    marginTop: theme.spacing(3),
-  },
-  "& .MuiInputBase-input": {
-    borderRadius: 4,
-    position: "relative",
-    backgroundColor: theme.palette.mode === "light" ? "#fcfcfb" : "#2b2b2b",
-    border: "1px solid #ced4da",
-    fontSize: 16,
-    width: "auto",
-    padding: "10px 12px",
-    transition: theme.transitions.create([
-      "border-color",
-      "background-color",
-      "box-shadow",
-    ]),
-    // Use the system font instead of the default Roboto font.
-    fontFamily: [
-      "-apple-system",
-      "BlinkMacSystemFont",
-      '"Segoe UI"',
-      "Roboto",
-      '"Helvetica Neue"',
-      "Arial",
-      "sans-serif",
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(","),
-    "&:focus": {
-      boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
-      borderColor: theme.palette.primary.main,
-    },
-  },
-}));
 
 export default function AddNewToDo({
   setContentFieldIsEmpty,
   setToDoList,
   contentFieldIsEmpty,
 }: {
-  setContentFieldIsEmpty: React.Dispatch<React.SetStateAction<boolean>>;
+  setContentFieldIsEmpty: React.Dispatch<React.SetStateAction<boolean[]>>;
   setToDoList: React.Dispatch<React.SetStateAction<IToDo[]>>;
-  contentFieldIsEmpty: boolean;
+  contentFieldIsEmpty: boolean[];
 }) {
   const [newToDo, setNewToDo] = useState<INewToDo>({
     content: "",
@@ -69,9 +31,9 @@ export default function AddNewToDo({
 
   const handleAddNewToDo = () => {
     if (newToDo.content.length === 0) {
-      setContentFieldIsEmpty(true);
+      setContentFieldIsEmpty((prev) => [prev[1], true]); //[false,true]
     } else {
-      setContentFieldIsEmpty(false);
+      setContentFieldIsEmpty((prev) => [prev[1], false]); //[false,false]
       axios.post(baseUrl + "/todolist", changeDate(newToDo)).then(() => {
         fetchData(setToDoList);
         setNewToDo({
@@ -88,10 +50,8 @@ export default function AddNewToDo({
         maxWidth="sm"
         component="div"
         sx={{
-          pt: 7,
-          pl: 7,
-          pr: 7,
-          backgroundColor: "yellow",
+          pt: 6,
+          px: 3,
           display: "flex",
           alignItems: "center",
           justifyContent: "space-around",
@@ -102,7 +62,12 @@ export default function AddNewToDo({
           id="outlined-basic"
           variant="outlined"
           size="small"
+          sx={{ width: 220 }}
+          autoFocus={true}
           value={newToDo.content}
+          error={
+            contentFieldIsEmpty[1] ? true : undefined
+          } /*conditinally adding this prop (so that the text field turns red when it is empty)*/
           onChange={(e) =>
             setNewToDo((prev) => ({ ...prev, content: e.target.value }))
           }
@@ -110,15 +75,15 @@ export default function AddNewToDo({
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DatePicker date={newToDo.due} setState={setNewToDo} />
         </LocalizationProvider>
-        <Fab color="primary" aria-label="add" onClick={handleAddNewToDo}>
+        <Fab
+          color="primary"
+          aria-label="add"
+          onClick={handleAddNewToDo}
+          size="small"
+        >
           <AddIcon />
         </Fab>
       </Container>
-      {contentFieldIsEmpty && (
-        <Typography variant="body1" gutterBottom sx={{ pl: 11 }}>
-          field is empty
-        </Typography>
-      )}
     </>
   );
 }

@@ -13,6 +13,8 @@ export default function DatePicker({
     <DesktopDatePicker
       clearable
       inputFormat="dd/MM/yyyy"
+      label="due"
+      //   onError={() => false}
       value={
         date === undefined ? null : date
       } /*as only null resets the mui date - should i change all undefined values to null? */
@@ -32,7 +34,7 @@ export default function DatePicker({
         }
       }}
       renderInput={(params) => (
-        <TextField size="small" sx={{ width: 155 }} {...params} />
+        <TextField size="small" sx={{ width: 150 }} {...params} />
       )}
     />
   );

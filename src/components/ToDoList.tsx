@@ -10,7 +10,6 @@ import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import AddNewToDo from "./AddNewToDo";
@@ -25,6 +24,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import Select from "./Select";
 import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
 const label = { inputProps: { "aria-label": "Checkbox" } };
 
@@ -42,7 +42,10 @@ export default function ToDoList({
 }): JSX.Element {
   console.log(toDoList);
 
-  const [contentFieldIsEmpty, setContentFieldIsEmpty] = useState(false);
+  const [contentFieldIsEmpty, setContentFieldIsEmpty] = useState([
+    false,
+    false,
+  ]); //for the 2 seperate fields: update field, add new to-do field
   const [editingId, setEditingId] = useState<number>();
   const [updatedToDo, setUpdatedToDo] = useState<INewToDo>({
     content: "",
@@ -53,9 +56,9 @@ export default function ToDoList({
   const handleUpdateToDo = (id: number) => {
     console.log(updatedToDo);
     if (updatedToDo.content.length === 0) {
-      setContentFieldIsEmpty(true);
+      setContentFieldIsEmpty((prev) => [true, prev[1]]); //[true,false]
     } else {
-      setContentFieldIsEmpty(false);
+      setContentFieldIsEmpty((prev) => [false, prev[1]]);
       setEditingId(undefined);
       axios
         .patch(baseUrl + `/todolist/${id}`, changeDate(updatedToDo))
@@ -74,7 +77,7 @@ export default function ToDoList({
   };
 
   function filterToDoList(toDoList: IToDo[], value: string) {
-    if (value === "complete") {
+    if (value === "completed") {
       return toDoList.filter((el) => el.complete === true);
     } else if (value === "uncomplete") {
       return toDoList.filter((el) => el.complete !== true);
@@ -91,10 +94,34 @@ export default function ToDoList({
     <Container
       maxWidth="sm"
       component="main"
-      sx={{ pt: 7, pb: 6, backgroundColor: "secondary.dark" }}
+      sx={{
+        p: 7,
+        backgroundColor: "#e3f2fd",
+        my: 5,
+        borderRadius: 20,
+      }}
+      // position: "absolute",
+      //   top: 0,
+      //   bottom: 0,
+      //   left: 0,
+      //   right: 0,
+      //   margin: "auto",
+      //   width: 700,
+      //   height: 700,
       disableGutters
     >
-      <Box sx={{ display: "flex", backgroundColor: "#76ff03" }}>
+      <Typography
+        variant="h3"
+        component="h1"
+        align="center"
+        color="text.primary"
+        fontFamily="sans-serif"
+        fontWeight={800}
+        gutterBottom
+      >
+        What do you need to do this week?
+      </Typography>
+      <Box sx={{ display: "flex", backgroundColor: "#e3f2fd" }}>
         <Select
           selectType={"Sort"}
           toDoList={toDoList}
@@ -103,15 +130,8 @@ export default function ToDoList({
 
         <Select selectType={"Filter"} setFilterValue={setFilterValue} />
       </Box>
-      <TableContainer component={Paper}>
-        <Table aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Content</TableCell>
-              <TableCell align="right">due</TableCell>
-              <TableCell align="right">complete, edit, delete</TableCell>
-            </TableRow>
-          </TableHead>
+      <TableContainer component={Paper} sx={{ borderRadius: 5 }}>
+        <Table aria-label="to-do table">
           <TableBody>
             {filteredToDoList.map((item, i) => {
               const checked = item.complete;
@@ -122,7 +142,11 @@ export default function ToDoList({
                       <TableCell>
                         <Input
                           value={updatedToDo.content}
+                          error={
+                            contentFieldIsEmpty[0] ? true : undefined
+                          } /*conditinally adding this prop (so that the text field turns red when it is empty)*/
                           type="text"
+                          autoFocus={true}
                           onChange={(e) =>
                             setUpdatedToDo((prev) => ({
                               ...prev,
@@ -131,7 +155,7 @@ export default function ToDoList({
                           }
                         ></Input>
                       </TableCell>
-                      <TableCell align="right">
+                      <TableCell>
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                           <DatePicker
                             date={updatedToDo.due}
@@ -139,7 +163,7 @@ export default function ToDoList({
                           />
                         </LocalizationProvider>
                       </TableCell>
-                      <TableCell align="right">
+                      <TableCell align="right" sx={{ width: 155 }}>
                         <IconButton onClick={() => handleUpdateToDo(item.id)}>
                           <DoneIcon />
                         </IconButton>
@@ -147,8 +171,8 @@ export default function ToDoList({
                     </>
                   ) : (
                     <>
-                      <TableCell>{item.content}</TableCell>
-                      <TableCell align="right">
+                      <TableCell sx={{ width: 140 }}>{item.content}</TableCell>
+                      <TableCell sx={{ color: "#546e7a" }}>
                         {item.due && formatDate(item.due)}
                       </TableCell>
                       <TableCell align="right">
