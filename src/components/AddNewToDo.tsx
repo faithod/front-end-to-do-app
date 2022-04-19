@@ -43,45 +43,43 @@ export default function AddNewToDo({
   };
 
   return (
-    <>
-      <Container
-        maxWidth="sm"
-        component="div"
-        sx={{
-          pt: 6,
-          px: 3,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-around",
-        }}
-        disableGutters
+    <Container
+      maxWidth="sm"
+      component="div"
+      sx={{
+        pt: 6,
+        px: 3,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-around",
+      }}
+      disableGutters
+    >
+      <TextField
+        id="outlined-basic"
+        variant="outlined"
+        size="small"
+        sx={{ width: 220 }}
+        autoFocus={true}
+        value={newToDo.content}
+        error={
+          contentFieldIsEmpty[1] ? true : undefined
+        } /*conditinally adding this prop (so that the text field turns red when it is empty)*/
+        onChange={(e) =>
+          setNewToDo((prev) => ({ ...prev, content: e.target.value }))
+        }
+      />
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <DatePicker date={newToDo.due} setState={setNewToDo} />
+      </LocalizationProvider>
+      <Fab
+        color="primary"
+        aria-label="add"
+        onClick={handleAddNewToDo}
+        size="small"
       >
-        <TextField
-          id="outlined-basic"
-          variant="outlined"
-          size="small"
-          sx={{ width: 220 }}
-          autoFocus={true}
-          value={newToDo.content}
-          error={
-            contentFieldIsEmpty[1] ? true : undefined
-          } /*conditinally adding this prop (so that the text field turns red when it is empty)*/
-          onChange={(e) =>
-            setNewToDo((prev) => ({ ...prev, content: e.target.value }))
-          }
-        />
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <DatePicker date={newToDo.due} setState={setNewToDo} />
-        </LocalizationProvider>
-        <Fab
-          color="primary"
-          aria-label="add"
-          onClick={handleAddNewToDo}
-          size="small"
-        >
-          <AddIcon />
-        </Fab>
-      </Container>
-    </>
+        <AddIcon />
+      </Fab>
+    </Container>
   );
 }
