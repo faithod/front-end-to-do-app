@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import ToDoList from "./components/ToDoList";
 import fetchData from "./utils/fetchData";
 import CssBaseline from "@mui/material/CssBaseline";
+import "./styles.css";
 
 export interface IToDo {
   id: number;
@@ -21,7 +22,6 @@ function App(): JSX.Element {
   return (
     <>
       <CssBaseline />
-      <Header />
       <ToDoList toDoList={toDoList} setToDoList={setToDoList} />
     </>
   );
