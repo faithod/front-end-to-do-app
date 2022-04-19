@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import Header from "./components/Header";
 import ToDoList from "./components/ToDoList";
 import fetchData from "./utils/fetchData";
 import CssBaseline from "@mui/material/CssBaseline";
-import "./styles.css";
 
 export interface IToDo {
   id: number;

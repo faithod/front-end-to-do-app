@@ -6,8 +6,6 @@ import fetchData from "../utils/fetchData";
 import { INewToDo } from "./ToDoList";
 import axios from "axios";
 import Container from "@mui/material/Container";
-import { alpha, styled } from "@mui/material/styles";
-import InputBase from "@mui/material/InputBase";
 import DatePicker from "./DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -23,7 +21,7 @@ export default function AddNewToDo({
   setContentFieldIsEmpty: React.Dispatch<React.SetStateAction<boolean[]>>;
   setToDoList: React.Dispatch<React.SetStateAction<IToDo[]>>;
   contentFieldIsEmpty: boolean[];
-}) {
+}): JSX.Element {
   const [newToDo, setNewToDo] = useState<INewToDo>({
     content: "",
     due: undefined /*cant send ("") to the server */,

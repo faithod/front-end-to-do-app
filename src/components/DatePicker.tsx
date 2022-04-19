@@ -8,13 +8,12 @@ export default function DatePicker({
 }: {
   date: string | undefined;
   setState: React.Dispatch<React.SetStateAction<INewToDo>>;
-}) {
+}): JSX.Element {
   return (
     <DesktopDatePicker
       clearable
       inputFormat="dd/MM/yyyy"
       label="due"
-      //   onError={() => false}
       value={
         date === undefined ? null : date
       } /*as only null resets the mui date - should i change all undefined values to null? */

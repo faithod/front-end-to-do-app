@@ -156,7 +156,7 @@ export default function Select({
   toDoList?: IToDo[];
   setToDoList?: React.Dispatch<React.SetStateAction<IToDo[]>>;
   setFilterValue?: React.Dispatch<React.SetStateAction<string>>;
-}) {
+}): JSX.Element {
   const options =
     selectType === "Sort" ? (
       <>

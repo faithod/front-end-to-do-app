@@ -11,7 +11,7 @@ export default function DeleteButton({
 }: {
   id: number;
   setToDoList: React.Dispatch<React.SetStateAction<IToDo[]>>;
-}) {
+}): JSX.Element {
   const handleDeleteToDo = (id: number) => {
     axios.delete(baseUrl + `/todolist/${id}`).then(() => {
       fetchData(setToDoList);

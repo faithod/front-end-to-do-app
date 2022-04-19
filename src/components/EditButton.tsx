@@ -14,7 +14,7 @@ export default function EditButton({
   due: string;
   setEditingId: React.Dispatch<React.SetStateAction<number | undefined>>;
   setUpdatedToDo: React.Dispatch<React.SetStateAction<INewToDo>>;
-}) {
+}): JSX.Element {
   return (
     <IconButton
       onClick={() => {
