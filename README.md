@@ -1,6 +1,6 @@
 # To-Do App
 
-A small full-stack to-do app built with the PERN stack (PostgreSQL Express React Node). This is only the front-end of this application, back-end can be found here: https://github.com/faithod/back-end-to-do-app 
+A small full-stack to-do app built with the PERN stack (PostgreSQL Express React Node). This is only the front-end of this application, back-end can be found here: https://github.com/faithod/back-end-to-do-app
 
 ## Demo
 
@@ -10,18 +10,17 @@ https://pern-to-do-app.netlify.app/
 
 ### Front-end set-up
 
-Install dependencies ```yarn```
+Install dependencies `yarn`
 
-Run locally ```yarn start```
-
+Run locally `yarn start`
 
 ### Back-end set-up
 
-Install dependencies ```yarn```
+Install dependencies `yarn`
 
-Run server locally ```yarn start```
+Run server locally `yarn start`
 
-Or, for dev mode (restarts server automatically when relevant files change): ```yarn start:dev```
+Or, for dev mode (restarts server automatically when relevant files change): `yarn start:dev`
 
 #### DB Setup
 
@@ -33,20 +32,20 @@ Copy .env.example to .env and set `DATABASE_URL` and `PORT` to your liking.
 
 Example for a local database: `DATABASE_URL=postgres://username:password@host:port/databasename`
 
-
 ## Built With
 
-
 ### Front-end
-* ReactJS 
-* Create React App
-* JavaScript
-* TypeScript
-* HTML
-* CSS
+
+- ReactJS
+- Create React App
+- JavaScript
+- TypeScript
+- HTML
+- Material UI
 
 ### Back-end
-* Node.js 
-* Express.js 
-* PostgreSQL 
-* Dotenv 
+
+- Node.js
+- Express.js
+- PostgreSQL
+- Dotenv
