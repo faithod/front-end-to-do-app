@@ -21,7 +21,7 @@ export default function EditButton({
         setEditingId(id);
         setUpdatedToDo({
           content: content,
-          due: due ? due.slice(0, 10) : "",
+          due: due ? due.slice(0, 10) : undefined,
         });
         console.log(due);
       }}
