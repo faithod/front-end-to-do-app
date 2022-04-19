@@ -11,7 +11,9 @@ import PopperUnstyled from "@mui/base/PopperUnstyled";
 import { styled } from "@mui/system";
 import { sortToDoList } from "../utils/sortToDoList";
 import { IToDo } from "../App";
+import FormControl from "@mui/material/FormControl";
 
+//go over all this
 const blue = {
   100: "#DAECFF",
   200: "#99CCF3",
@@ -39,7 +41,7 @@ const StyledButton = styled("button")(
   font-size: 0.875rem;
   box-sizing: border-box;
   min-height: calc(1.5em + 22px);
-  min-width: 320px;
+  min-width: 90px;
   background: ${theme.palette.mode === "dark" ? grey[900] : "#fff"};
   border: 1px solid ${theme.palette.mode === "dark" ? grey[800] : grey[300]};
   border-radius: 0.75em;
@@ -78,7 +80,7 @@ const StyledListbox = styled("ul")(
   box-sizing: border-box;
   padding: 5px;
   margin: 10px 0;
-  min-width: 320px;
+  min-width: 90px;
   background: ${theme.palette.mode === "dark" ? grey[900] : "#fff"};
   border: 1px solid ${theme.palette.mode === "dark" ? grey[800] : grey[300]};
   border-radius: 0.75em;

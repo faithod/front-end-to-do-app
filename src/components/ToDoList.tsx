@@ -5,7 +5,6 @@ import fetchData from "../utils/fetchData";
 import { formatDate } from "../utils/formatDate";
 import axios from "axios";
 import { changeDate } from "../utils/changeDate";
-import { sortToDoList } from "../utils/sortToDoList";
 import Container from "@mui/material/Container";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -25,8 +24,9 @@ import DatePicker from "./DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import Select from "./Select";
+import Box from "@mui/material/Box";
 
-const label = { inputProps: { "aria-label": "Checkbox demo" } };
+const label = { inputProps: { "aria-label": "Checkbox" } };
 
 export interface INewToDo {
   content: string;
@@ -94,12 +94,15 @@ export default function ToDoList({
       sx={{ pt: 7, pb: 6, backgroundColor: "secondary.dark" }}
       disableGutters
     >
-      <Select
-        selectType={"Sort"}
-        toDoList={toDoList}
-        setToDoList={setToDoList}
-      />
-      <Select selectType={"Filter"} setFilterValue={setFilterValue} />
+      <Box sx={{ display: "flex", backgroundColor: "#76ff03" }}>
+        <Select
+          selectType={"Sort"}
+          toDoList={toDoList}
+          setToDoList={setToDoList}
+        />
+
+        <Select selectType={"Filter"} setFilterValue={setFilterValue} />
+      </Box>
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
           <TableHead>
@@ -178,8 +181,8 @@ export default function ToDoList({
       <AddNewToDo
         setContentFieldIsEmpty={setContentFieldIsEmpty}
         setToDoList={setToDoList}
+        contentFieldIsEmpty={contentFieldIsEmpty}
       />
-      {contentFieldIsEmpty && <p>field is empty</p>}
     </Container>
   );
 }

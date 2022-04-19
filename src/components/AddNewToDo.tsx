@@ -14,6 +14,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
   "label + &": {
@@ -55,9 +56,11 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
 export default function AddNewToDo({
   setContentFieldIsEmpty,
   setToDoList,
+  contentFieldIsEmpty,
 }: {
   setContentFieldIsEmpty: React.Dispatch<React.SetStateAction<boolean>>;
   setToDoList: React.Dispatch<React.SetStateAction<IToDo[]>>;
+  contentFieldIsEmpty: boolean;
 }) {
   const [newToDo, setNewToDo] = useState<INewToDo>({
     content: "",
@@ -80,33 +83,42 @@ export default function AddNewToDo({
   };
 
   return (
-    <Container
-      maxWidth="sm"
-      component="div"
-      sx={{
-        p: 7,
-        backgroundColor: "yellow",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-around",
-      }}
-      disableGutters
-    >
-      <TextField
-        id="outlined-basic"
-        variant="outlined"
-        size="small"
-        value={newToDo.content}
-        onChange={(e) =>
-          setNewToDo((prev) => ({ ...prev, content: e.target.value }))
-        }
-      />
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <DatePicker date={newToDo.due} setState={setNewToDo} />
-      </LocalizationProvider>
-      <Fab color="primary" aria-label="add" onClick={handleAddNewToDo}>
-        <AddIcon />
-      </Fab>
-    </Container>
+    <>
+      <Container
+        maxWidth="sm"
+        component="div"
+        sx={{
+          pt: 7,
+          pl: 7,
+          pr: 7,
+          backgroundColor: "yellow",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-around",
+        }}
+        disableGutters
+      >
+        <TextField
+          id="outlined-basic"
+          variant="outlined"
+          size="small"
+          value={newToDo.content}
+          onChange={(e) =>
+            setNewToDo((prev) => ({ ...prev, content: e.target.value }))
+          }
+        />
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <DatePicker date={newToDo.due} setState={setNewToDo} />
+        </LocalizationProvider>
+        <Fab color="primary" aria-label="add" onClick={handleAddNewToDo}>
+          <AddIcon />
+        </Fab>
+      </Container>
+      {contentFieldIsEmpty && (
+        <Typography variant="body1" gutterBottom sx={{ pl: 11 }}>
+          field is empty
+        </Typography>
+      )}
+    </>
   );
 }
