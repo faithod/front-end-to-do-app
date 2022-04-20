@@ -18,7 +18,8 @@ export default function DatePicker({
         date === undefined ? null : date
       } /*as only null resets the mui date - should i change all undefined values to null? */
       onChange={(value: Date | null) => {
-        if (value) {
+        console.log(typeof value);
+        if (value && value.toString() !== "Invalid Date") {
           setState((prev) => ({
             ...prev,
             due: value
