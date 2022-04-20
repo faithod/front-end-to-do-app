@@ -23,7 +23,6 @@ export default function EditButton({
           content: content,
           due: due ? due.slice(0, 10) : undefined,
         });
-        console.log(due);
       }}
     >
       <EditIcon />

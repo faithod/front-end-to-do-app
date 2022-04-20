@@ -40,8 +40,6 @@ export default function ToDoList({
   toDoList: IToDo[];
   setToDoList: React.Dispatch<React.SetStateAction<IToDo[]>>;
 }): JSX.Element {
-  console.log(toDoList);
-
   const [contentFieldIsEmpty, setContentFieldIsEmpty] = useState([
     false,
     false,
@@ -54,7 +52,6 @@ export default function ToDoList({
   const [filterValue, setFilterValue] = useState("");
 
   const handleUpdateToDo = (id: number) => {
-    console.log(updatedToDo);
     if (updatedToDo.content.length === 0) {
       setContentFieldIsEmpty((prev) => [true, prev[1]]); //[true,false]
     } else {

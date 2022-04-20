@@ -180,7 +180,6 @@ export default function Select({
       } else if (setFilterValue) {
         //if "Filter"
         setFilterValue(value);
-        console.log(value);
       }
     }
   };
