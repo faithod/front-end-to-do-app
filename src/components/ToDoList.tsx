@@ -67,7 +67,9 @@ export default function ToDoList({
 
   const handleChangeComplete = (id: number, completeValue: boolean) => {
     axios
-      .patch(baseUrl + `/todolist/${id}`, { complete: !completeValue })
+      .patch(baseUrl + `/todolist/${id}`, {
+        complete: (!completeValue).toString(),
+      }) //sending {complete: false} to the server only works when i send it as a string for some reason > ('false')
       .then(() => {
         fetchData(setToDoList);
       });
