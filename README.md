@@ -10,7 +10,7 @@ https://pern-to-do-app.netlify.app/
 
 ### Front-end set-up
 
-Install dependencies `yarn`
+Install dependenciesss `yarn`
 
 Run locally `yarn start`
 
